@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ff9933",
+                        "inverse-primary": "#ffb77a",
+                        "primary-fixed-dim": "#ffb77a",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface": "#1c1b1b",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#554336",
+                        "on-tertiary-container": "#434545",
+                        "background": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-fixed-variant": "#6d3a00",
+                        "on-secondary-container": "#745c00",
+                        "surface-dim": "#dcd9d9",
+                        "surface-tint": "#8f4e00",
+                        "outline-variant": "#dbc2b0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "primary": "#8f4e00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#693800",
+                        "secondary": "#735c00",
+                        "surface-container": "#f0eded",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#fed65b",
+                        "surface-container-high": "#eae7e7",
+                        "tertiary": "#5d5f5f",
+                        "error": "#ba1a1a",
+                        "outline": "#887364",
+                        "primary-fixed": "#ffdcc2",
+                        "on-background": "#1c1b1b",
+                        "tertiary-container": "#b1b2b2",
+                        "on-primary-fixed": "#2e1500",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "container-max": "1280px",
+                        "xxl": "80px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Work Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "data-tabular": ["Work Sans"],
+                        "label-caps": ["Work Sans"],
+                        "display-lg": ["Noto Serif"],
+                        "body-md": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .receipt-paper {
+            background: linear-gradient(to bottom, #ffffff 0%, #fcfcfc 100%);
+            box-shadow: 0 4px 20px -2px rgba(143, 78, 0, 0.08);
+        }
+        .wavy-border {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 25 20 50 10 T 100 10' fill='none' stroke='%23ff9933' stroke-width='1'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: bottom;
+        }
+        .sacred-pattern {
+            background-image: radial-gradient(#ff9933 0.5px, transparent 0.5px);
+            background-size: 24px 24px;
+            opacity: 0.03;
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen">
+<!-- Top Navigation Header -->
+<header class="bg-[#FAFAFA] border-b border-stone-200 font-['Noto_Serif'] antialiased flex justify-between items-center h-16 px-8 w-full sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-orange-600">temple_hindu</span>
+<div class="text-xl font-bold tracking-tight text-orange-600 uppercase">SHREE KED SHAKTI DHAM</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex gap-8">
+<span class="text-orange-600 border-b-2 border-orange-500 font-medium">Record Offering</span>
+<span class="text-stone-500 hover:text-orange-500 transition-colors duration-200 cursor-pointer">Daily Ledger</span>
+<span class="text-stone-500 hover:text-orange-500 transition-colors duration-200 cursor-pointer">Directory</span>
+</div>
+<div class="flex items-center gap-4 ml-8">
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-orange-500">account_balance_wallet</span>
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-orange-500">notifications</span>
+<span class="material-symbols-outlined text-stone-500 cursor-pointer hover:text-orange-500">settings</span>
+<img alt="Priest profile" class="w-8 h-8 rounded-full border border-orange-200" data-alt="close-up portrait of an elderly indian priest with serene expression wearing traditional saffron robes in soft sunlight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR-r1TfgwDT7-OA2Y9WUQvN3ZeB9Z01aez6ekm4NWDRush_ovPKJTDrsJoRZq2GJSC2A-iJ9SuayU00_0rukwQ7QDfS9UKEu_NYS3Nbr1p8f8hiMihgGU2FGFcyEUQafK2izBnz22208YTLm_1DISB3FUFxv79vFGSJ_Sngr7Y-JvPUFqgtlHnNkOltxdQ_Hz_svVK7nDuWzbdqFT9HiMYvcZ9BNo9Ws4Vh8BrEG0IM7xIfkOFxR-K3MtYnMIz3f3mEvm8qHuL3g"/>
+</div>
+</div>
+</header>
+<main class="max-w-container-max mx-auto px-gutter py-xl relative">
+<div class="sacred-pattern absolute inset-0 pointer-events-none"></div>
+<!-- Success Feedback Header -->
+<div class="text-center mb-xl relative z-10">
+<div class="inline-flex items-center justify-center w-20 h-20 bg-primary-container/10 rounded-full mb-md">
+<span class="material-symbols-outlined text-primary-container !text-4xl" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary mb-xs">Offering Recorded Successfully</h1>
+<p class="font-body-lg text-body-lg text-on-surface-variant">Transaction ID: #KSD-2023-90812</p>
+</div>
+<!-- Split Invoice Layout (Bento Style) -->
+<div class="grid grid-cols-12 gap-lg relative z-10">
+<!-- Main Summary Receipt -->
+<div class="col-span-12 lg:col-span-8 receipt-paper border border-outline-variant p-xl relative overflow-hidden">
+<div class="absolute top-0 right-0 p-lg">
+<img alt="Temple Emblem" class="w-24 opacity-10 grayscale" data-alt="minimalist golden silhouette of a vedic temple shikara against a white background used as a subtle watermark" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWmFlxDog-In9bU3uovalFuqRZcLAylgfCNDNVim0ImgAvl_xRZ_Y0ePzI8eP8cLlm5s_wROeyd1uX5zL7JKG1dzOn8m0SFK2eikY4-_FiNdZQfqNKNsFtmQNEWlQQ9iHlF3j2B5XyYZshKbD7XcPBHYQPoc3AfFfzk-m7ZsXpswl_VhdXAMiFIyBL--WKm93GRpYJd1XCyr-t-eDOzEZt_TzZXYfkbAb2SyDPR1Ql9zGr351CXnFeEsNvSj8z0wqhD89WAlZbNg"/>
+</div>
+<div class="mb-xl border-b border-secondary-fixed pb-md">
+<h2 class="font-label-caps text-label-caps text-secondary mb-xs">OFFERING DETAILS</h2>
+<div class="flex justify-between items-end">
+<div class="font-headline-md text-headline-md">Maha Aarti &amp; Bhog Seva</div>
+<div class="font-display-lg text-display-lg text-primary">₹ 5,001.00</div>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-xl mb-xl">
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-xs">DEVOTEE</h3>
+<p class="font-body-lg text-on-surface font-semibold">Rajesh Kumar Sharma</p>
+<p class="font-body-md text-on-surface-variant">Gotra: Bhardwaj</p>
+</div>
+<div>
+<h3 class="font-label-caps text-label-caps text-on-surface-variant mb-xs">DATE &amp; TIME</h3>
+<p class="font-body-lg text-on-surface font-semibold">October 24, 2023</p>
+<p class="font-body-md text-on-surface-variant">06:45 PM (Sandhya Aarti)</p>
+</div>
+</div>
+<!-- Generated Split Invoices Section -->
+<div class="mb-xl bg-surface-container-low p-lg border border-outline-variant">
+<div class="flex items-center gap-2 mb-md">
+<span class="material-symbols-outlined text-secondary">account_tree</span>
+<h3 class="font-headline-md text-[18px]">Allocation Summary</h3>
+</div>
+<div class="space-y-md">
+<div class="flex justify-between items-center py-sm border-b border-outline-variant/30">
+<div>
+<p class="font-body-md font-semibold">Temple Maintenance Fund</p>
+<p class="text-xs text-on-surface-variant">Account: CORP-MAIN-01</p>
+</div>
+<p class="font-data-tabular text-data-tabular">₹ 2,500.00</p>
+</div>
+<div class="flex justify-between items-center py-sm border-b border-outline-variant/30">
+<div>
+<p class="font-body-md font-semibold">Annakshetra (Bhog Seva)</p>
+<p class="text-xs text-on-surface-variant">Account: CHAR-ANN-02</p>
+</div>
+<p class="font-data-tabular text-data-tabular">₹ 2,001.00</p>
+</div>
+<div class="flex justify-between items-center py-sm">
+<div>
+<p class="font-body-md font-semibold">Vedic Pathshala Support</p>
+<p class="text-xs text-on-surface-variant">Account: EDU-VEDA-09</p>
+</div>
+<p class="font-data-tabular text-data-tabular">₹ 500.00</p>
+</div>
+</div>
+</div>
+<div class="pt-md border-t-2 border-dashed border-outline-variant flex justify-between items-center">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined">verified_user</span>
+<span class="text-xs font-label-caps uppercase">Digitally Verified by Sanctum Admin</span>
+</div>
+<div class="w-16 h-16 border border-outline-variant bg-white p-1">
+<div class="w-full h-full bg-stone-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-stone-300">qr_code_2</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Column -->
+<div class="col-span-12 lg:col-span-4 space-y-lg">
+<!-- Primary Share Action -->
+<button class="w-full group bg-[#25D366] hover:bg-[#20ba59] text-white p-xl flex flex-col items-center justify-center gap-md transition-all shadow-lg">
+<span class="material-symbols-outlined !text-4xl group-hover:scale-110 transition-transform" style="font-variation-settings: 'FILL' 1;">share</span>
+<span class="font-headline-md">Share on WhatsApp</span>
+<span class="font-body-md opacity-90">Send PDF Receipt to Devotee</span>
+</button>
+<!-- Thermal Print Action -->
+<button class="w-full bg-white border-2 border-secondary hover:bg-secondary-container/20 p-lg flex items-center justify-between transition-colors">
+<div class="flex items-center gap-md">
+<span class="material-symbols-outlined text-secondary">print</span>
+<div class="text-left">
+<p class="font-body-lg font-bold text-on-surface">Print Receipt</p>
+<p class="text-xs font-label-caps text-secondary uppercase">Thermal 80mm</p>
+</div>
+</div>
+<span class="material-symbols-outlined text-on-surface-variant">chevron_right</span>
+</button>
+<!-- Secondary Actions Grid -->
+<div class="grid grid-cols-2 gap-md">
+<button class="bg-white border border-outline-variant p-md flex flex-col items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">download</span>
+<span class="font-label-caps text-on-surface-variant">Save PDF</span>
+</button>
+<button class="bg-white border border-outline-variant p-md flex flex-col items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">mail</span>
+<span class="font-label-caps text-on-surface-variant">Email Link</span>
+</button>
+<button class="bg-white border border-outline-variant p-md flex flex-col items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">sms</span>
+<span class="font-label-caps text-on-surface-variant">SMS Link</span>
+</button>
+<button class="bg-white border border-outline-variant p-md flex flex-col items-center gap-2 hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant">add_card</span>
+<span class="font-label-caps text-on-surface-variant">New Entry</span>
+</button>
+</div>
+<!-- Information Note -->
+<div class="p-lg bg-surface-container border-l-4 border-secondary">
+<h4 class="font-label-caps text-on-surface mb-xs flex items-center gap-2">
+<span class="material-symbols-outlined !text-[16px]">info</span> 
+                        Vedic Radiance Note
+                    </h4>
+<p class="text-xs text-on-surface-variant italic">
+                        This digital receipt is generated with sacred intent. For any discrepancies in allocation, please contact the Sanctum Treasury department within 24 hours.
+                    </p>
+</div>
+</div>
+</div>
+<!-- Success Modal (Background Overlay Style) -->
+<div class="fixed inset-0 z-50 flex items-center justify-center px-gutter pointer-events-none">
+<!-- This is a visual representation of a success toast/modal component -->
+<div class="bg-white border border-secondary shadow-2xl p-lg max-w-md w-full flex items-center gap-lg pointer-events-auto border-b-4 translate-y-[-100px] opacity-0 animate-in fade-in slide-in-from-top-10 duration-700 fill-mode-forwards" style="animation: none; opacity: 1; transform: none; position: fixed; bottom: 40px; right: 40px;">
+<div class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-white">done_all</span>
+</div>
+<div>
+<h4 class="font-headline-md text-[18px]">Ledger Synchronized</h4>
+<p class="font-body-md text-on-surface-variant text-sm">All 3 split vouchers have been recorded in the central database.</p>
+</div>
+<button class="material-symbols-outlined text-on-surface-variant hover:text-on-surface transition-colors">close</button>
+</div>
+</div>
+</main>
+<!-- Side Navigation Sidebar -->
+<nav class="hidden md:flex h-screen w-64 border-r border-stone-100 bg-white dark:bg-stone-950 fixed left-0 top-0 flex-col h-full py-6 px-4 z-[60]">
+<div class="flex items-center gap-3 mb-xl px-2">
+<span class="material-symbols-outlined text-orange-600 !text-3xl">temple_hindu</span>
+<div>
+<h2 class="text-lg font-black text-orange-600 dark:text-orange-500 leading-tight">Ked Shakti Dham</h2>
+<p class="text-[10px] font-label-caps text-stone-500 uppercase tracking-[0.2em]">Vedic Management</p>
+</div>
+</div>
+<div class="flex-grow space-y-2">
+<div class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 hover:text-orange-500 transition-all cursor-pointer rounded-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined">temple_hindu</span>
+                Sanctum Dashboard
+            </div>
+<div class="flex items-center gap-3 px-4 py-3 text-orange-600 font-bold bg-orange-50/50 border-r-4 border-orange-500 transition-all cursor-pointer rounded-l-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">payments</span>
+                Record Offering
+            </div>
+<div class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 hover:text-orange-500 transition-all cursor-pointer rounded-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined">receipt_long</span>
+                Daily Ledger
+            </div>
+<div class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 hover:text-orange-500 transition-all cursor-pointer rounded-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined">group</span>
+                Devotee Directory
+            </div>
+<div class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 hover:text-orange-500 transition-all cursor-pointer rounded-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined">analytics</span>
+                Temple Analytics
+            </div>
+<div class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 hover:text-orange-500 transition-all cursor-pointer rounded-lg font-['Noto_Serif'] text-sm tracking-wide">
+<span class="material-symbols-outlined">help_center</span>
+                Support
+            </div>
+</div>
+<button class="mx-2 mb-xl bg-orange-600 text-white py-3 font-label-caps uppercase tracking-widest text-[11px] shadow-lg shadow-orange-200 hover:bg-orange-700 transition-colors">
+            New Offering
+        </button>
+<div class="pt-6 border-t border-stone-100 space-y-1">
+<div class="flex items-center gap-3 px-4 py-2 text-stone-600 hover:text-orange-500 transition-all cursor-pointer text-sm">
+<span class="material-symbols-outlined !text-[20px]">settings</span>
+                Settings
+            </div>
+<div class="flex items-center gap-3 px-4 py-2 text-stone-600 hover:text-orange-500 transition-all cursor-pointer text-sm">
+<span class="material-symbols-outlined !text-[20px]">logout</span>
+                Sign Out
+            </div>
+</div>
+</nav>
+<!-- Content padding for Sidebar -->
+<style>
+        @media (min-width: 768px) {
+            main, header { padding-left: 18rem; }
+        }
+    </style>
+</body></html>

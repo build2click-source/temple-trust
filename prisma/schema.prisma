@@ -1,0 +1,68 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+enum Role {
+  ADMIN
+  CLERK
+}
+
+model User {
+  id           String     @id // Maps to Supabase auth.users UUID
+  email        String     @unique
+  username     String?    @unique
+  role         Role
+  createdAt    DateTime   @default(now())
+  Donations    Donation[]
+}
+
+model Devotee {
+  id           String     @id @default(uuid())
+  name         String
+  phone        String?    @unique
+  city         String?
+  state        String?
+  createdAt    DateTime   @default(now())
+  Donations    Donation[]
+  SharedLinks  SharedLink[]
+}
+
+model Donation {
+  id           String     @id @default(uuid())
+  devoteeId    String
+  cashierId    String
+  totalAmount  Int
+  purpose      String     @default("GENERAL")
+  status       String     @default("COLLECTED") // COLLECTED or CANCELLED
+  date         DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date 
+  Devotee      Devotee    @relation(fields: [devoteeId], references: [id])
+  Cashier      User       @relation(fields: [cashierId], references: [id])
+  Invoices     Invoice[]
+  SharedLinks  SharedLink[]
+}
+
+model Invoice {
+  id           String     @id @default(uuid())
+  invoiceNum   String     @unique
+  donationId   String
+  amount       Int
+  date         DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date
+  Donation     Donation   @relation(fields: [donationId], references: [id])
+}
+
+model SharedLink {
+  id           String     @id @default(uuid())
+  devoteeId    String
+  donationId   String
+  date         DateTime   @default(now()) @db.Date
+  expiresAt    DateTime?
+  Devotee      Devotee    @relation(fields: [devoteeId], references: [id])
+  Donation     Donation   @relation(fields: [donationId], references: [id])
+}

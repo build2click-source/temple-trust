@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Work+Sans:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ff9933",
+                        "inverse-primary": "#ffb77a",
+                        "primary-fixed-dim": "#ffb77a",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface": "#1c1b1b",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#554336",
+                        "on-tertiary-container": "#434545",
+                        "background": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-fixed-variant": "#6d3a00",
+                        "on-secondary-container": "#745c00",
+                        "surface-dim": "#dcd9d9",
+                        "surface-tint": "#8f4e00",
+                        "outline-variant": "#dbc2b0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "primary": "#8f4e00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#693800",
+                        "secondary": "#735c00",
+                        "surface-container": "#f0eded",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#fed65b",
+                        "surface-container-high": "#eae7e7",
+                        "tertiary": "#5d5f5f",
+                        "error": "#ba1a1a",
+                        "outline": "#887364",
+                        "primary-fixed": "#ffdcc2",
+                        "on-background": "#1c1b1b",
+                        "tertiary-container": "#b1b2b2",
+                        "on-primary-fixed": "#2e1500",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "container-max": "1280px",
+                        "xxl": "80px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Work Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "data-tabular": ["Work Sans"],
+                        "label-caps": ["Work Sans"],
+                        "display-lg": ["Noto Serif"],
+                        "body-md": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .vedic-waves {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M21.1,18.3c0,0-2.7-1.3-4.5-1.3s-4.5,1.3-4.5,1.3s-2.7,1.3-4.5,1.3S3,18.3,3,18.3V1.7c0,0,2.7,1.3,4.5,1.3s4.5-1.3,4.5-1.3s2.7-1.3,4.5-1.3s4.5,1.3,4.5,1.3V18.3z' fill='%23ff9933' fill-opacity='0.05'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+            background-position: bottom;
+        }
+        .alabaster-gradient {
+            background: radial-gradient(circle at top right, #FFFFFF 0%, #FAFAFA 100%);
+        }
+    </style>
+</head>
+<body class="bg-background font-body-md text-on-background min-h-screen flex items-center justify-center p-md overflow-hidden alabaster-gradient vedic-waves">
+<!-- Decorative Top Background Layer -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20">
+<div class="absolute top-0 right-0 w-1/3 h-1/3 bg-primary-container blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2"></div>
+<div class="absolute bottom-0 left-0 w-1/4 h-1/4 bg-secondary-container blur-[100px] rounded-full -translate-x-1/2 translate-y-1/2"></div>
+</div>
+<!-- Login Container -->
+<main class="relative z-10 w-full max-w-[480px]">
+<!-- Temple Branding Anchor -->
+<div class="flex flex-col items-center mb-xl">
+<div class="relative w-24 h-24 mb-md">
+<img alt="Shree Ked Shakti Dham Temple Crest" class="w-full h-full object-contain" data-alt="Intricate golden temple crest emblem with sacred geometry and sanskrit calligraphy, high-key bright lighting, white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVACdlNLMbVfXmtMuGH_G8L9Y1UGvArmVaFYpXKoZfeZZQyfGiu6Qz_oPDlBlRmyF1FOl7fK7K5Qh-0udkHosxGeLGnWEkV7DjhhgO2HvOoci33pLHUnViIrh9WFAjd-4rqHuEHJgq4O6WnHQg9SdVOPRVtg48kJu3D5osgyX0OXV07d9C2kpmZZiCyhVsLimUVHoGvGy-TPWOcPTxupDQtOXw2whaZRjCnKlm6p4JEpZnXqaAacT_vXLDunkCdh2_sbuatgJqtg"/>
+</div>
+<h1 class="font-headline-lg text-headline-lg text-primary text-center tracking-tight mb-xs">Shree Ked Shakti Dham</h1>
+<p class="font-label-caps text-label-caps text-outline uppercase tracking-[0.2em]">Vedic Management Portal</p>
+</div>
+<!-- Login Card -->
+<div class="bg-surface-container-lowest border border-outline-variant p-xl shadow-none relative overflow-hidden">
+<!-- Subtle Saffron Accent Line -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-primary-container"></div>
+<div class="mb-lg">
+<h2 class="font-headline-md text-headline-md text-on-surface mb-xs">Sacred Access</h2>
+<p class="font-body-md text-on-surface-variant">Please select your portal role to proceed.</p>
+</div>
+<!-- Role Selection (Tab Style) -->
+<div class="flex gap-0 mb-lg border-b border-surface-container-highest">
+<button class="flex-1 py-md font-label-caps text-label-caps text-primary border-b-2 border-primary-container transition-all">
+                    ADMINISTRATOR
+                </button>
+<button class="flex-1 py-md font-label-caps text-label-caps text-outline hover:text-primary transition-all">
+                    CASHIER
+                </button>
+</div>
+<!-- Login Form -->
+<form class="space-y-lg">
+<!-- User ID -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="uid">Portal ID</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">person</span>
+<input class="w-full pl-lg pr-sm py-sm bg-transparent border-b border-outline-variant focus:border-primary-container focus:ring-0 transition-all outline-none font-data-tabular" id="uid" name="uid" placeholder="SKSD-XXXXX" type="text"/>
+</div>
+</div>
+<!-- Access Key -->
+<div class="flex flex-col gap-xs">
+<label class="font-label-caps text-label-caps text-on-surface-variant uppercase" for="pwd">Access Key</label>
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-outline group-focus-within:text-primary transition-colors">lock</span>
+<input class="w-full pl-lg pr-sm py-sm bg-transparent border-b border-outline-variant focus:border-primary-container focus:ring-0 transition-all outline-none font-data-tabular" id="pwd" name="pwd" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Remember & Forgot -->
+<div class="flex justify-between items-center pt-xs">
+<label class="flex items-center gap-sm cursor-pointer group">
+<input class="w-4 h-4 rounded-none border-outline text-primary focus:ring-primary-container transition-all" type="checkbox"/>
+<span class="font-label-caps text-label-caps text-on-surface-variant group-hover:text-primary transition-colors">Stay Signed In</span>
+</label>
+<a class="font-label-caps text-label-caps text-primary-container hover:text-primary transition-colors underline-offset-4 hover:underline" href="#">Reset Access</a>
+</div>
+<!-- Submit Button -->
+<button class="w-full bg-primary-container text-white py-md font-label-caps text-body-md tracking-widest hover:bg-primary transition-all flex items-center justify-center gap-sm mt-xl" type="submit">
+                    INITIATE SESSION
+                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</form>
+</div>
+<!-- Footer Help -->
+<div class="mt-lg text-center">
+<p class="font-body-md text-on-surface-variant opacity-60">
+                Facing issues? Contact the <span class="text-primary font-semibold">Temple IT Cell</span>
+</p>
+<div class="mt-md flex justify-center gap-lg">
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+<div class="w-1 h-1 bg-outline-variant rounded-full"></div>
+</div>
+</div>
+</main>
+<!-- Visual Embellishment: Vertical Lines -->
+<div class="fixed inset-y-0 left-[10%] w-[1px] bg-outline-variant opacity-20 pointer-events-none"></div>
+<div class="fixed inset-y-0 right-[10%] w-[1px] bg-outline-variant opacity-20 pointer-events-none"></div>
+</body></html>

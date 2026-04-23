@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700;900&amp;family=Work+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#ff9933",
+                        "inverse-primary": "#ffb77a",
+                        "primary-fixed-dim": "#ffb77a",
+                        "error-container": "#ffdad6",
+                        "secondary-fixed-dim": "#e9c349",
+                        "surface-container-lowest": "#ffffff",
+                        "on-error": "#ffffff",
+                        "surface-container-low": "#f6f3f2",
+                        "surface-bright": "#fcf9f8",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f3f0ef",
+                        "on-tertiary-fixed-variant": "#454747",
+                        "on-surface": "#1c1b1b",
+                        "inverse-surface": "#313030",
+                        "on-surface-variant": "#554336",
+                        "on-tertiary-container": "#434545",
+                        "background": "#fcf9f8",
+                        "on-tertiary": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "surface-container-highest": "#e5e2e1",
+                        "surface-variant": "#e5e2e1",
+                        "on-primary-fixed-variant": "#6d3a00",
+                        "on-secondary-container": "#745c00",
+                        "surface-dim": "#dcd9d9",
+                        "surface-tint": "#8f4e00",
+                        "outline-variant": "#dbc2b0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "primary": "#8f4e00",
+                        "on-tertiary-fixed": "#1a1c1c",
+                        "surface": "#fcf9f8",
+                        "on-secondary": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c6c7",
+                        "tertiary-fixed": "#e2e2e2",
+                        "on-primary-container": "#693800",
+                        "secondary": "#735c00",
+                        "surface-container": "#f0eded",
+                        "on-error-container": "#93000a",
+                        "secondary-container": "#fed65b",
+                        "surface-container-high": "#eae7e7",
+                        "tertiary": "#5d5f5f",
+                        "error": "#ba1a1a",
+                        "outline": "#887364",
+                        "primary-fixed": "#ffdcc2",
+                        "on-background": "#1c1b1b",
+                        "tertiary-container": "#b1b2b2",
+                        "on-primary-fixed": "#2e1500",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "sm": "8px",
+                        "container-max": "1280px",
+                        "xxl": "80px",
+                        "gutter": "24px",
+                        "lg": "24px",
+                        "unit": "4px",
+                        "xs": "4px",
+                        "md": "16px",
+                        "xl": "40px"
+                    },
+                    "fontFamily": {
+                        "body-lg": ["Work Sans"],
+                        "headline-lg": ["Noto Serif"],
+                        "headline-md": ["Noto Serif"],
+                        "data-tabular": ["Work Sans"],
+                        "label-caps": ["Work Sans"],
+                        "display-lg": ["Noto Serif"],
+                        "body-md": ["Work Sans"]
+                    },
+                    "fontSize": {
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "headline-lg": ["32px", {"lineHeight": "1.2", "fontWeight": "600"}],
+                        "headline-md": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "data-tabular": ["14px", {"lineHeight": "1.4", "fontWeight": "500"}],
+                        "label-caps": ["12px", {"lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "600"}],
+                        "display-lg": ["48px", {"lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .saffron-wave {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='20' viewBox='0 0 100 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 10 Q 25 0 50 10 T 100 10' fill='none' stroke='%23ff9933' stroke-width='1' opacity='0.2'/%3E%3C/svg%3E");
+            background-repeat: repeat-x;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-body-md antialiased min-h-screen">
+<!-- Top Navigation Shell -->
+<header class="bg-[#FAFAFA] dark:bg-stone-900 border-b border-stone-200 dark:border-stone-800 flex justify-between items-center h-16 px-8 w-full sticky top-0 z-50">
+<div class="flex items-center gap-4">
+<span class="text-xl font-bold tracking-tight text-orange-600 dark:text-orange-500 uppercase font-['Noto_Serif']">Shree Ked Shakti Dham</span>
+</div>
+<div class="flex items-center gap-6">
+<div class="hidden md:flex items-center gap-8 font-['Noto_Serif']">
+<a class="text-orange-600 dark:text-orange-400 border-b-2 border-orange-500 py-5" href="#">Record Offering</a>
+<a class="text-stone-500 dark:text-stone-400 hover:text-orange-500 transition-colors duration-200 py-5" href="#">Sanctum Dashboard</a>
+</div>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-stone-500">account_balance_wallet</button>
+<button class="material-symbols-outlined text-stone-500">notifications</button>
+<div class="h-8 w-8 rounded-full bg-surface-container-highest overflow-hidden border border-outline-variant">
+<img alt="Priest profile" data-alt="portrait of a serene hindu priest with traditional markings on forehead in soft daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAF_SpcPRSvQFTFsrd5FuX1qH0A_rAXWKXdz3ANNxRPRDytns4Wcvx7c4BhQ-h6LjPSHySHOwiQF6Ns3QLa2FKDm6keQW2xbr88ZLzxg9j4umAF61P2Gl8c-LWKrcx8IcTSySj7Q0Le-v0EBX_M-NmMyAFH_cUheSVA1lmyBgcJQGlyH_T6kAYiC6l3ePJh6NbR3RC46B-lpsDNzLH41Bvm_X4dUFRoVjDQyTvwElyw1JD01u0q1vVwSF2KKQcc8uh3J3n1CRejvg"/>
+</div>
+</div>
+</div>
+</header>
+<div class="flex">
+<!-- Sidebar Shell -->
+<aside class="hidden lg:flex flex-col h-screen w-64 border-r border-stone-100 dark:border-stone-800 bg-white dark:bg-stone-950 py-6 px-4 fixed left-0 top-16 font-['Noto_Serif'] text-sm tracking-wide">
+<div class="mb-10 px-2">
+<h3 class="text-lg font-black text-orange-600 dark:text-orange-500">Ked Shakti Dham</h3>
+<p class="text-[10px] uppercase tracking-widest text-stone-400">Vedic Management Portal</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded" href="#">
+<span class="material-symbols-outlined">temple_hindu</span>
+<span>Sanctum Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-orange-600 font-bold bg-orange-50/50 border-r-4 border-orange-500 transition-all" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Record Offering</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded" href="#">
+<span class="material-symbols-outlined">receipt_long</span>
+<span>Daily Ledger</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-stone-600 hover:bg-stone-50 transition-all rounded" href="#">
+<span class="material-symbols-outlined">group</span>
+<span>Devotee Directory</span>
+</a>
+</nav>
+<div class="pt-6 border-t border-stone-100 mt-auto">
+<a class="flex items-center gap-3 px-4 py-2 text-stone-500 hover:text-orange-500 transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span>Settings</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-stone-500 hover:text-orange-500 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sign Out</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 lg:ml-64 p-gutter lg:p-xl">
+<div class="max-w-container-max mx-auto">
+<!-- Header -->
+<div class="mb-xl">
+<h1 class="font-headline-lg text-display-lg text-primary mb-xs">Record New Offering</h1>
+<p class="font-body-lg text-on-surface-variant max-w-2xl">Enter devotee details and contribution amount to generate sacred receipts and update the divine ledger.</p>
+</div>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-xl items-start">
+<!-- Left Column: Entry Form -->
+<div class="lg:col-span-5 space-y-xl">
+<section class="bg-white border border-stone-100 p-lg relative overflow-hidden">
+<div class="absolute top-0 right-0 w-32 h-32 saffron-wave -mr-16 -mt-16 rotate-45 pointer-events-none opacity-20"></div>
+<h2 class="font-label-caps text-label-caps text-primary mb-lg uppercase tracking-[0.2em]">Devotee Identification</h2>
+<div class="space-y-lg">
+<div class="relative">
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-xs">SEARCH DEVOTEE / PHONE NUMBER</label>
+<div class="flex items-center border-b border-outline focus-within:border-primary-container transition-colors py-2">
+<span class="material-symbols-outlined text-stone-400 mr-2">search</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-body-md p-0" placeholder="e.g. +91 98765 43210 or 'Sharma'" type="text"/>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-md">
+<div class="p-md bg-surface-container-low border border-stone-100 rounded-sm">
+<p class="font-label-caps text-[10px] text-stone-500 mb-1">SELECTED DEVOTEE</p>
+<p class="font-headline-md text-body-lg text-on-surface">Rajesh Mukhopadhyay</p>
+<p class="font-data-tabular text-sm text-stone-500">ID: KSD-88219</p>
+</div>
+<button class="flex flex-col items-center justify-center border border-dashed border-outline-variant hover:border-primary-container transition-colors rounded-sm group">
+<span class="material-symbols-outlined text-stone-400 group-hover:text-primary">person_add</span>
+<span class="font-label-caps text-[10px] mt-1 text-stone-500">NEW ENTRY</span>
+</button>
+</div>
+</div>
+</section>
+<section class="bg-white border border-stone-100 p-lg">
+<h2 class="font-label-caps text-label-caps text-primary mb-lg uppercase tracking-[0.2em]">Offering Details</h2>
+<div class="space-y-xl">
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-xs">CONTRIBUTION AMOUNT (₹)</label>
+<div class="flex items-baseline border-b border-outline focus-within:border-primary-container transition-colors py-2">
+<span class="font-headline-lg text-display-lg text-primary mr-2">₹</span>
+<input class="w-full bg-transparent border-none focus:ring-0 font-headline-lg text-display-lg text-on-surface p-0" type="number" value="2000"/>
+</div>
+</div>
+<div>
+<label class="font-label-caps text-label-caps text-on-surface-variant block mb-md">OFFERING TYPE</label>
+<div class="grid grid-cols-2 gap-sm">
+<button class="flex items-center justify-center gap-2 p-md bg-primary text-white border border-primary font-label-caps">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+                                            DHAAN
+                                        </button>
+<button class="flex items-center justify-center gap-2 p-md border border-stone-200 hover:border-primary-container transition-colors font-label-caps text-on-surface-variant">
+<span class="material-symbols-outlined text-sm">menu_book</span>
+                                            POOJA SEVA
+                                        </button>
+</div>
+</div>
+<button class="w-full bg-primary-container hover:bg-primary text-on-primary-container hover:text-white transition-all py-lg px-xl font-headline-md flex items-center justify-center gap-3">
+                                    PROCESS OFFERING
+                                    <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</section>
+</div>
+<!-- Right Column: Live Preview -->
+<div class="lg:col-span-7 bg-surface-container-low p-lg lg:p-xl border border-stone-100 min-h-[600px]">
+<div class="flex justify-between items-center mb-xl">
+<div>
+<h3 class="font-headline-md text-primary">Live Receipt Preview</h3>
+<p class="text-sm text-stone-500 font-body-md">Real-time visualization of the offering ledger</p>
+</div>
+<div class="flex gap-2">
+<button class="p-2 bg-white border border-stone-200 material-symbols-outlined text-stone-500">grid_view</button>
+<button class="p-2 bg-white border border-stone-200 material-symbols-outlined text-stone-500">print</button>
+</div>
+</div>
+<!-- Invoice Cards Layout -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-lg">
+<!-- Live Card 1 -->
+<div class="bg-white border border-stone-200 p-md relative overflow-hidden">
+<div class="absolute top-0 right-0 p-2">
+<span class="material-symbols-outlined text-primary-container opacity-40">verified</span>
+</div>
+<div class="border-b border-stone-100 pb-md mb-md">
+<div class="flex justify-between items-start">
+<img alt="Temple Crest" class="h-10 w-auto" data-alt="minimalist gold leaf emblem of a temple silhouette on white background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDz2fRw_qLEUYyH1tSAaIBt-7dOJm0Nywmx2iahVYBccdTa9y7gWyztHDXi4f4cfDA4oJyqXk-NwKnap0t9FGNfCOnoPwKTqVHYncu8coCy7llyFqzNaWNM9l_t-omcw2-Txt8IoxPVQnPqM4yj46XPgPHpUcvwLpmdVCu51FOqArcRbmT2NOw30gCViPnyLUlCQ1mafC2gll_JzBdBYhfm-sHjFACjp-cgDSpMEzsOhwmMmCu9y2snQA_vTj7yniKUUyt_obW3Xg"/>
+<div class="text-right">
+<p class="font-data-tabular text-[10px] text-stone-400">RECEIPT NO.</p>
+<p class="font-data-tabular font-bold text-on-surface">#KSD-0992</p>
+</div>
+</div>
+</div>
+<div class="space-y-sm mb-lg">
+<div>
+<p class="font-label-caps text-[10px] text-stone-500">DEVOTEE</p>
+<p class="font-headline-md text-md text-on-surface">Rajesh Mukhopadhyay</p>
+</div>
+<div class="flex justify-between">
+<div>
+<p class="font-label-caps text-[10px] text-stone-500">DATE</p>
+<p class="font-data-tabular text-xs">24 OCT 2023</p>
+</div>
+<div class="text-right">
+<p class="font-label-caps text-[10px] text-stone-500">OFFERING TYPE</p>
+<p class="font-data-tabular text-xs">DHAAN (GENERAL)</p>
+</div>
+</div>
+</div>
+<div class="bg-primary-container/10 p-md border-l-4 border-primary-container">
+<p class="font-label-caps text-[10px] text-primary">AMOUNT RECEIVED</p>
+<p class="font-headline-md text-2xl text-primary">₹2,000.00</p>
+</div>
+<div class="mt-md pt-md border-t border-stone-100 border-dashed text-center">
+<p class="font-['Noto_Serif'] italic text-[11px] text-stone-400">"May the divine grace illuminate your path."</p>
+</div>
+</div>
+<!-- Preview Suggestion Card -->
+<div class="bg-white/50 border border-dashed border-stone-300 p-md flex flex-col items-center justify-center text-center opacity-70">
+<span class="material-symbols-outlined text-stone-300 text-4xl mb-md">post_add</span>
+<p class="font-label-caps text-stone-400">AWAITING INPUT</p>
+<p class="text-xs text-stone-400 font-body-md mt-1">Secondary split will appear here for large contributions</p>
+</div>
+</div>
+<!-- Stats Footer in Preview -->
+<div class="mt-xl grid grid-cols-3 gap-md">
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-stone-500 mb-1">DAILY COUNT</p>
+<p class="font-data-tabular text-xl font-bold">142</p>
+</div>
+<div class="text-center border-x border-stone-200">
+<p class="font-label-caps text-[10px] text-stone-500 mb-1">TOTAL DHAAN</p>
+<p class="font-data-tabular text-xl font-bold text-primary">₹2.4L</p>
+</div>
+<div class="text-center">
+<p class="font-label-caps text-[10px] text-stone-500 mb-1">AVG. VALUE</p>
+<p class="font-data-tabular text-xl font-bold">₹1,690</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+</div>
+<!-- Background Decoration -->
+<div class="fixed inset-0 pointer-events-none -z-10 overflow-hidden opacity-40">
+<div class="absolute -top-1/4 -right-1/4 w-[800px] h-[800px] bg-gradient-to-br from-primary-container/10 to-transparent rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-1/4 -left-1/4 w-[600px] h-[600px] bg-gradient-to-tr from-secondary-container/5 to-transparent rounded-full blur-[100px]"></div>
+<img alt="Temple Background" class="absolute inset-0 object-cover opacity-5 mix-blend-overlay" data-alt="high-key overexposed photograph of an ancient stone temple archway with bright white sunlight pouring through" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2E7W-GlfUJCaRghTZUz5EjSYdGEFcWPMj0c8tmN1kk-WnbVsYKL4tiTPMFQOSERN9WQUP9gmm2nqEu0rrVnT9GkiE5L94EkU9cHitFYPEsZIHOMfyNkjAAyycelTzmOlJkjnQbG6nK0HQ8sMh-A8otciTqpU8TzAjHUXRy93C8eFir4v7_ShNySnKfV_TjQLHz-jkufL-qTxxUaSRUXp6Kv7hGcyZyg-7EgvvYkZxY3lHpTeL5707o4CrPf3rbAzJrhmtyA-4Lw"/>
+</div>
+</body></html>
