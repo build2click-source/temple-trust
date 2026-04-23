@@ -22,7 +22,7 @@ export default function LoginPage() {
             {siteConfig.name}
           </h1>
           <p className="font-label-caps text-xs text-muted-foreground uppercase tracking-[0.2em]">
-            Vedic Management Portal
+            Shaktidham Management Portal
           </p>
         </div>
 

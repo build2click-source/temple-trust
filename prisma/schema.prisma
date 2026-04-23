@@ -27,6 +27,7 @@ model Devotee {
   id           String     @id @default(uuid())
   name         String
   phone        String?    @unique
+  pan          String?
   city         String?
   state        String?
   createdAt    DateTime   @default(now())
@@ -41,6 +42,7 @@ model Donation {
   totalAmount  Int
   purpose      String     @default("GENERAL")
   status       String     @default("COLLECTED") // COLLECTED or CANCELLED
+  signature    String?
   date         DateTime   @default(dbgenerated("CURRENT_DATE")) @db.Date 
   Devotee      Devotee    @relation(fields: [devoteeId], references: [id])
   Cashier      User       @relation(fields: [cashierId], references: [id])

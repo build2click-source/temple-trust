@@ -13,7 +13,7 @@ function generateUniqueInvoiceNumber() {
   return `TKT-${dateStr}-${randomStr}`;
 }
 
-export async function createDevotee(name: string, phone: string | null, city?: string, state?: string) {
+export async function createDevotee(name: string, phone: string | null, city?: string, state?: string, pan?: string) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const { data: { user } } = await supabase.auth.getUser();
@@ -23,6 +23,7 @@ export async function createDevotee(name: string, phone: string | null, city?: s
     data: {
       name,
       phone: phone || null,
+      pan: pan || null,
       city: city || null,
       state: state || null,
     },
@@ -50,7 +51,7 @@ export async function searchDevotees(query: string) {
   return devotees;
 }
 
-export async function generateDonationInvoices(totalAmount: number, devoteeId: string, purpose: string) {
+export async function generateDonationInvoices(totalAmount: number, devoteeId: string, purpose: string, signature?: string) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const { data: { user } } = await supabase.auth.getUser();
@@ -58,6 +59,17 @@ export async function generateDonationInvoices(totalAmount: number, devoteeId: s
 
   const cashierId = user.id;
   const CURRENT_DAY = new Date();
+
+  // Ensure the user exists in our User table (Supabase sync check)
+  await prisma.user.upsert({
+    where: { id: cashierId },
+    update: {},
+    create: {
+      id: cashierId,
+      email: user.email!,
+      role: "CLERK" // Default role for auto-synced users
+    }
+  });
 
   let remainingAmount = totalAmount;
   const splitAmounts: number[] = [];
@@ -76,13 +88,22 @@ export async function generateDonationInvoices(totalAmount: number, devoteeId: s
   // Database Transaction to ensure all or nothing saves
   const donation = await prisma.$transaction(async (tx) => {
     const newDonation = await tx.donation.create({
-      data: { devoteeId, cashierId, totalAmount, date: CURRENT_DAY, purpose },
+      data: { devoteeId, cashierId, totalAmount, date: CURRENT_DAY, purpose, signature: signature || null },
     });
 
-    const invoiceData = splitAmounts.map((amt) => ({
+    // Get the true maximum numeric invoice number to avoid string sorting issues (e.g., "9" > "10")
+    const maxResult = await tx.$queryRaw<[{ max: number }]>`
+      SELECT MAX(CAST("invoiceNum" AS INTEGER)) as max 
+      FROM "Invoice" 
+      WHERE "invoiceNum" ~ '^[0-9]+$'
+    `;
+    
+    let lastNum = maxResult[0]?.max || 0;
+
+    const invoiceData = splitAmounts.map((amt, index) => ({
       donationId: newDonation.id,
       amount: amt,
-      invoiceNum: generateUniqueInvoiceNumber(),
+      invoiceNum: (lastNum + index + 1).toString(),
       date: CURRENT_DAY,
     }));
 
@@ -100,18 +121,21 @@ export async function generateDonationInvoices(totalAmount: number, devoteeId: s
   });
 
   revalidatePath("/dashboard");
+  revalidatePath("/dashboard/ledger");
   return donation;
 }
 
-export async function getLedger(date?: string) {
+export async function getLedger(startDate?: string, endDate?: string) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
   const whereClause: any = {};
-  if (date) {
-    whereClause.date = new Date(date);
+  if (startDate || endDate) {
+    whereClause.date = {};
+    if (startDate) whereClause.date.gte = new Date(startDate);
+    if (endDate) whereClause.date.lte = new Date(endDate);
   }
 
   const donations = await prisma.donation.findMany({
@@ -123,26 +147,30 @@ export async function getLedger(date?: string) {
       SharedLinks: true,
     },
     orderBy: { date: "desc" },
-    take: 100,
+    take: 500, // Increased for range views
   });
 
   return donations;
 }
 
-export async function getStats() {
+export async function getStats(startDate?: string, endDate?: string) {
   const cookieStore = await cookies();
   const supabase = createClient(cookieStore);
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) throw new Error("Unauthorized");
 
-  const totalAmountResult = await prisma.donation.aggregate({
+  const start = startDate ? new Date(startDate) : null;
+  const end = endDate ? new Date(endDate) : null;
+  
+  // Global totals (Collected only)
+  const globalAmountResult = await prisma.donation.aggregate({
     where: { status: "COLLECTED" },
     _sum: { totalAmount: true }
   });
 
+  // Monthly totals
   const now = new Date();
   const firstDayOfMonth = new Date(now.getFullYear(), now.getMonth(), 1);
-  
   const monthlyAmountResult = await prisma.donation.aggregate({
     where: {
       date: { gte: firstDayOfMonth },
@@ -151,9 +179,33 @@ export async function getStats() {
     _sum: { totalAmount: true }
   });
 
+  // Date range specific
+  const rangeWhere: any = { status: "COLLECTED" };
+  if (start || end) {
+    rangeWhere.date = {};
+    if (start) rangeWhere.date.gte = start;
+    if (end) rangeWhere.date.lte = end;
+  }
+
+  const rangeAmountResult = await prisma.donation.aggregate({
+    where: rangeWhere,
+    _sum: { totalAmount: true }
+  });
+
+  const rangeInvoicesResult = await prisma.invoice.count({
+    where: {
+      Donation: rangeWhere
+    }
+  });
+
+  const totalDevoteesResult = await prisma.devotee.count();
+
   return {
-    total: totalAmountResult._sum.totalAmount || 0,
-    monthly: monthlyAmountResult._sum.totalAmount || 0
+    totalAmount: globalAmountResult._sum.totalAmount || 0,
+    monthlyAmount: monthlyAmountResult._sum.totalAmount || 0,
+    rangeAmount: rangeAmountResult?._sum.totalAmount || 0,
+    totalInvoices: rangeInvoicesResult,
+    totalDevotees: totalDevoteesResult
   };
 }
 
@@ -168,6 +220,7 @@ export async function cancelDonation(donationId: string) {
     data: { status: "CANCELLED" }
   });
 
+  revalidatePath("/dashboard");
   revalidatePath("/dashboard/ledger");
   return donation;
 }
@@ -188,4 +241,40 @@ export async function getAllDevotees() {
   });
 
   return devotees;
+}
+
+export async function updateDevotee(id: string, data: { name: string, phone: string | null, city?: string, state?: string, pan?: string }) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
+
+  const devotee = await prisma.devotee.update({
+    where: { id },
+    data: {
+      name: data.name,
+      phone: data.phone || null,
+      pan: data.pan || null,
+      city: data.city || null,
+      state: data.state || null,
+    },
+  });
+
+  revalidatePath("/dashboard/devotees");
+  return devotee;
+}
+
+export async function deleteDevotee(id: string) {
+  const cookieStore = await cookies();
+  const supabase = createClient(cookieStore);
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) throw new Error("Unauthorized");
+
+  // Check if devotee has donations (optional: could also use onCascadeDelete in prisma)
+  const devotee = await prisma.devotee.delete({
+    where: { id },
+  });
+
+  revalidatePath("/dashboard/devotees");
+  return devotee;
 }

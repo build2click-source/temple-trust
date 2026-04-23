@@ -59,14 +59,14 @@ export default function LoginForm() {
         </div>
       )}
       <div className="flex flex-col gap-1">
-        <label className="font-label-caps text-[12px] font-semibold text-muted-foreground uppercase" htmlFor="email">Portal Email</label>
+        <label className="font-label-caps text-[12px] font-semibold text-muted-foreground uppercase" htmlFor="email">Authorized Email</label>
         <div className="relative group">
           <span className="material-symbols-outlined absolute left-0 top-1/2 -translate-y-1/2 text-muted-foreground group-focus-within:text-primary transition-colors">person</span>
           <input
             className="w-full pl-8 pr-2 py-2 bg-transparent border-b border-border focus:border-primary focus:ring-0 transition-all outline-none font-data-tabular"
             id="email"
             name="email"
-            placeholder="admin@temple.org"
+            placeholder="yourname@shaktidham.com"
             type="email"
             required
             disabled={isLoading}

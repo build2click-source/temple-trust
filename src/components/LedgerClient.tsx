@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { format } from "date-fns";
 import { numberToWords } from "@/lib/numberToWords";
 import { siteConfig } from "@/config/site";
@@ -11,16 +11,27 @@ import { ReceiptView } from "./ReceiptView";
 
 interface LedgerClientProps {
   initialDonations: any[];
-  stats: { total: number; monthly: number };
+  stats: { totalAmount: number; monthlyAmount: number };
 }
 
 export function LedgerClient({ initialDonations, stats }: LedgerClientProps) {
   const router = useRouter();
-  const [selectedDate, setSelectedDate] = useState(format(new Date(), "yyyy-MM-dd"));
+  const today = format(new Date(), "yyyy-MM-dd");
+  const searchParams = typeof window !== 'undefined' ? new URLSearchParams(window.location.search) : null;
+  const initialFrom = searchParams?.get("from") || today;
+  const initialTo = searchParams?.get("to") || today;
+
+  const [fromDate, setFromDate] = useState(initialFrom);
+  const [toDate, setToDate] = useState(initialTo);
   const [donations, setDonations] = useState(initialDonations);
   const [viewingDonation, setViewingDonation] = useState<any | null>(null);
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [isCancelling, setIsCancelling] = useState<string | null>(null);
+
+  // Synchronize state with props when the server re-fetches
+  useEffect(() => {
+    setDonations(initialDonations);
+  }, [initialDonations]);
 
   const handleCancel = async (id: string) => {
     if (!confirm("Are you sure you want to cancel this divine offering? This cannot be undone.")) return;
@@ -36,9 +47,17 @@ export function LedgerClient({ initialDonations, stats }: LedgerClientProps) {
     }
   };
 
-  const handleDateChange = async (date: string) => {
-    setSelectedDate(date);
-    // You might want to fetch new data here if not handled by parent
+  const applyRange = (from: string, to: string) => {
+    const params = new URLSearchParams(window.location.search);
+    if (from) params.set("from", from); else params.delete("from");
+    if (to) params.set("to", to); else params.delete("to");
+    router.push(`?${params.toString()}`);
+  };
+
+  const handleClear = () => {
+    setFromDate(today);
+    setToDate(today);
+    router.push(window.location.pathname);
   };
 
   const handlePrint = () => {
@@ -52,38 +71,68 @@ export function LedgerClient({ initialDonations, stats }: LedgerClientProps) {
     }
     const cleanPhone = donation.Devotee.phone.replace(/\D/g, "");
     const shareAmt = amt || donation.totalAmount;
-    const shareNum = invoiceNum || "All Receipts";
     
     const shareUrl = donation.SharedLinks?.[0]?.id 
       ? `${window.location.origin}/share/${donation.SharedLinks[0].id}` 
       : "";
 
     const message = encodeURIComponent(
-      `Namaste ${donation.Devotee.name}! 🙏\n\nThank you for your offering of ₹${shareAmt} for ${donation.purpose} at ${siteConfig.name}.\n\n${shareUrl ? `View/Download your receipts here: ${shareUrl}\n\n` : ""}Date: ${format(new Date(donation.date), "dd MMM yyyy")}\n\nMay the divine grace be with you.`
+      `Namaste ${donation.Devotee.name}! 🙏\n\nThank you for your offering of ₹${shareAmt} for ${donation.purpose} at ${siteConfig.name}.\n\n${shareUrl ? `View/Download your receipts here: ${shareUrl}\n\n` : ""}Date: ${format(new Date(donation.date), "dd MMM yyyy")}\n\nJai Dadi Ki`
     );
     window.open(`https://wa.me/${cleanPhone}?text=${message}`, "_blank");
   };
 
+  const isRangeDefault = fromDate === today && toDate === today;
+  const isSingleDate = fromDate === toDate;
+
+  const summaryTitle = isRangeDefault 
+    ? `Today's Summary (${format(new Date(), 'dd MMM')})`
+    : isSingleDate 
+      ? `Daily Summary (${format(new Date(fromDate), 'dd MMM')})`
+      : `Range Summary (${format(new Date(fromDate), 'dd MMM')} - ${format(new Date(toDate), 'dd MMM')})`;
+
   return (
     <div className="space-y-12 animate-in fade-in duration-700">
       {/* Summary Header */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        <div className="bg-card border-2 border-border p-8 shadow-sm">
-          <p className="font-label-caps text-[10px] text-muted-foreground uppercase tracking-widest mb-2">Total Collection (Till Now)</p>
-          <h3 className="font-heading text-4xl text-primary">₹{stats.total.toLocaleString()}</h3>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="bg-card border-2 border-border p-6 shadow-sm">
+          <p className="font-label-caps text-[9px] text-muted-foreground uppercase tracking-widest mb-1">Global Total Collection</p>
+          <h3 className="font-heading text-2xl text-primary">₹{stats.totalAmount.toLocaleString()}</h3>
         </div>
-        <div className="bg-card border-2 border-primary/20 p-8 shadow-md">
-          <p className="font-label-caps text-[10px] text-primary uppercase tracking-widest mb-2">Monthly Summary ({format(new Date(), 'MMM yyyy')})</p>
-          <h3 className="font-heading text-4xl text-primary">₹{stats.monthly.toLocaleString()}</h3>
+        
+        <div className="bg-card border-2 border-primary/20 p-6 shadow-md bg-primary/5">
+          <p className="font-label-caps text-[9px] text-primary uppercase tracking-widest mb-1">{summaryTitle}</p>
+          <h3 className="font-heading text-2xl text-primary">₹{(stats as any).rangeAmount?.toLocaleString() || 0}</h3>
         </div>
-        <div className="bg-card border-2 border-border p-8 shadow-sm flex flex-col justify-center">
-          <p className="font-label-caps text-[10px] text-muted-foreground uppercase tracking-widest mb-3">Filter by Date</p>
-          <input 
-            type="date" 
-            value={selectedDate}
-            onChange={(e) => handleDateChange(e.target.value)}
-            className="bg-transparent border-b-2 border-border focus:border-primary transition-colors py-1 outline-none font-data-tabular"
-          />
+
+        <div className="md:col-span-1 bg-card border-2 border-border p-6 shadow-sm flex flex-col gap-4">
+           <div className="flex gap-2">
+              <div className="flex-1">
+                <p className="font-label-caps text-[8px] text-muted-foreground uppercase mb-1">From</p>
+                <input 
+                  type="date" 
+                  value={fromDate}
+                  onChange={(e) => { setFromDate(e.target.value); applyRange(e.target.value, toDate); }}
+                  className="w-full bg-transparent border-b border-border focus:border-primary text-xs outline-none font-data-tabular"
+                />
+              </div>
+              <div className="flex-1">
+                <p className="font-label-caps text-[8px] text-muted-foreground uppercase mb-1">To</p>
+                <input 
+                  type="date" 
+                  value={toDate}
+                  onChange={(e) => { setToDate(e.target.value); applyRange(fromDate, e.target.value); }}
+                  className="w-full bg-transparent border-b border-border focus:border-primary text-xs outline-none font-data-tabular"
+                />
+              </div>
+           </div>
+           <button 
+             onClick={handleClear}
+             className="text-[9px] font-label-caps text-muted-foreground hover:text-primary flex items-center gap-1 self-end"
+           >
+             <span className="material-symbols-outlined text-xs">refresh</span>
+             RESET TO TODAY
+           </button>
         </div>
       </div>
 

@@ -88,7 +88,7 @@ export function ReceiptView({ donation, invoices, showPrintButton = true }: Rece
                   </div>
                   <div className="flex items-baseline w-full md:w-auto">
                      <span className="font-bold mr-2">PAN No. :</span>
-                     <span className="border-b border-dotted border-[#333] min-w-[150px]"></span>
+                     <span className="border-b border-dotted border-[#333] min-w-[150px] uppercase font-bold">{donation.Devotee.pan || ""}</span>
                   </div>
                 </div>
 
@@ -113,9 +113,18 @@ export function ReceiptView({ donation, invoices, showPrintButton = true }: Rece
                       <span className="font-bold text-3xl font-data-tabular text-[#333]">Rs. {inv.amount.toLocaleString()}.00</span>
                    </div>
                    
-                   <div className="text-right italic text-[11px] max-w-[200px]">
-                      <p className="font-bold border-t border-[#333] pt-2 mt-8 md:mt-12">Authorised Signatory</p>
-                      <p className="mt-1">Computer generated receipt, no signature required</p>
+                   <div className="text-right italic text-[11px] max-w-[200px] flex flex-col items-center">
+                      {donation.signature ? (
+                        <div className="flex flex-col items-center">
+                          <img src={donation.signature} alt="Signature" className="h-10 w-auto object-contain mb-1" />
+                          <p className="font-bold border-t border-[#333] pt-1 w-full text-center">Authorised Signatory</p>
+                        </div>
+                      ) : (
+                        <>
+                          <p className="font-bold border-t border-[#333] pt-2 mt-8 md:mt-12">Authorised Signatory</p>
+                          <p className="mt-1">Computer generated receipt, no signature required</p>
+                        </>
+                      )}
                    </div>
                 </div>
              </div>

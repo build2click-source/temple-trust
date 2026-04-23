@@ -1,11 +1,21 @@
 import { getLedger, getStats } from "@/actions/donation";
 import { LedgerClient } from "@/components/LedgerClient";
+import { format } from "date-fns";
 
 export const dynamic = "force-dynamic";
 
-export default async function LedgerPage() {
-  const donations = await getLedger();
-  const stats = await getStats();
+export default async function LedgerPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ from?: string; to?: string }>;
+}) {
+  const { from, to } = await searchParams;
+  const today = format(new Date(), "yyyy-MM-dd");
+  const startDate = from || today;
+  const endDate = to || today;
+
+  const donations = await getLedger(startDate, endDate);
+  const stats = await getStats(startDate, endDate);
 
   return (
     <div className="space-y-12">

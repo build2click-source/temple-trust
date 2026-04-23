@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "SHREE KED SHAKTIDHAM SAMITY KED",
+  name: "SHREE KED SHAKTIDHAM",
   shortName: "SKSDS",
   description: "Official donation and invoice management portal.",
   regdNo: "COOP/2018/JHUNJHUNU/100112",

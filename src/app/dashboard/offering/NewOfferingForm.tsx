@@ -34,6 +34,13 @@ const PURPOSES = [
   "Turant Balaji Jyoti"
 ];
 
+const SIGNATURES = [
+  { id: "none", name: "No Signature", path: null },
+  { id: "sig1", name: "Manager Signature", path: "/signature1.png" },
+  { id: "sig2", name: "Trustee Signature", path: "/signature2.png" },
+  { id: "sig3", name: "Secretary Signature", path: "/signature3.png" },
+];
+
 export default function NewOfferingForm() {
   const router = useRouter();
   const [amount, setAmount] = useState<number>(1000);
@@ -41,6 +48,9 @@ export default function NewOfferingForm() {
   const [searchQuery, setSearchQuery] = useState("");
   const [devotees, setDevotees] = useState<any[]>([]);
   const [selectedDevotee, setSelectedDevotee] = useState<any | null>(null);
+  const [selectedSignature, setSelectedSignature] = useState(SIGNATURES[0].id);
+  const [isSignatureOpen, setIsSignatureOpen] = useState(false);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isSearching, setIsSearching] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -51,6 +61,7 @@ export default function NewOfferingForm() {
   const [newDevoteePhone, setNewDevoteePhone] = useState("");
   const [newDevoteeCity, setNewDevoteeCity] = useState("");
   const [newDevoteeState, setNewDevoteeState] = useState("");
+  const [newDevoteePan, setNewDevoteePan] = useState("");
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(async () => {
@@ -75,7 +86,7 @@ export default function NewOfferingForm() {
   const handleCreateDevotee = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const dev = await createDevotee(newDevoteeName, newDevoteePhone, newDevoteeCity, newDevoteeState);
+      const dev = await createDevotee(newDevoteeName, newDevoteePhone, newDevoteeCity, newDevoteeState, newDevoteePan);
       setSelectedDevotee(dev);
       setShowCreateModal(false);
       setSearchQuery("");
@@ -83,6 +94,7 @@ export default function NewOfferingForm() {
       setNewDevoteePhone("");
       setNewDevoteeCity("");
       setNewDevoteeState("");
+      setNewDevoteePan("");
     } catch (err: any) {
       console.error(err);
       if (err.message?.includes("Unique constraint")) {
@@ -96,15 +108,34 @@ export default function NewOfferingForm() {
   const handleProcessOffering = async () => {
     if (!selectedDevotee) return;
     setIsSubmitting(true);
+    setErrorMessage(null);
     try {
-      const donation = await generateDonationInvoices(amount, selectedDevotee.id, purpose);
+      const sigPath = SIGNATURES.find(s => s.id === selectedSignature)?.path || undefined;
+      const donation = await generateDonationInvoices(amount, selectedDevotee.id, purpose, sigPath);
       setSuccessData(donation);
-    } catch (err) {
+    } catch (err: any) {
       console.error(err);
-      alert("Failed to process offering.");
+      setErrorMessage(err.message || "Unknown error occurred during invoice generation.");
     } finally {
       setIsSubmitting(false);
     }
+  };
+
+  const handleShareWhatsApp = (donation: any) => {
+    if (!selectedDevotee?.phone) {
+      alert("No phone number found.");
+      return;
+    }
+    const cleanPhone = selectedDevotee.phone.replace(/\D/g, "");
+    
+    const shareUrl = donation.sharedLink?.id 
+      ? `${window.location.origin}/share/${donation.sharedLink.id}` 
+      : "";
+
+    const message = encodeURIComponent(
+      `Namaste ${selectedDevotee.name}! 🙏\n\nThank you for your offering of ₹${donation.totalAmount} for ${purpose} at ${siteConfig.name}.\n\n${shareUrl ? `View/Download your receipts here: ${shareUrl}\n\n` : ""}Date: ${format(new Date(), "dd MMM yyyy")}\n\nJai Dadi Ki`
+    );
+    window.open(`https://wa.me/${cleanPhone}?text=${message}`, "_blank");
   };
 
   const splitAmounts = [];
@@ -119,21 +150,7 @@ export default function NewOfferingForm() {
     }
   }
 
-  const handleShareWhatsApp = (invoiceNum: string, amt: number) => {
-    if (!selectedDevotee?.phone) {
-      alert("No phone number found.");
-      return;
-    }
-    const cleanPhone = selectedDevotee.phone.replace(/\D/g, "");
-    const shareUrl = successData?.sharedLink?.id 
-      ? `${window.location.origin}/share/${successData.sharedLink.id}` 
-      : "";
 
-    const message = encodeURIComponent(
-      `Namaste ${selectedDevotee.name}! 🙏\n\nThank you for your offering of ₹${amt} for ${purpose} at Shree Ked Shaktidham Samity Ked.\n\n${shareUrl ? `View/Download your receipts here: ${shareUrl}\n\n` : ""}May the divine grace be with you.`
-    );
-    window.open(`https://wa.me/${cleanPhone}?text=${message}`, "_blank");
-  };
 
   return (
     <div className="max-w-4xl mx-auto">
@@ -141,6 +158,20 @@ export default function NewOfferingForm() {
         <h1 className="font-heading text-4xl text-foreground">Sacred Ledger Entry</h1>
         <p className="text-muted-foreground mt-2 font-body-md italic text-lg">"Dharmo Rakshati Rakshitah"</p>
       </div>
+
+      {errorMessage && (
+        <div className="mb-8 p-6 bg-destructive/10 border-2 border-destructive/20 text-destructive animate-in slide-in-from-top-4 duration-500">
+          <div className="flex items-center gap-3 mb-2">
+            <span className="material-symbols-outlined">error</span>
+            <p className="font-heading text-lg">Processing Error</p>
+            <button onClick={() => setErrorMessage(null)} className="ml-auto hover:opacity-70">
+               <span className="material-symbols-outlined">close</span>
+            </button>
+          </div>
+          <p className="text-sm font-mono bg-black/5 p-3 break-all select-all cursor-text">{errorMessage}</p>
+          <p className="text-[10px] mt-3 uppercase tracking-widest opacity-70">Please copy this error and share with support</p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         {/* Devotee Identification Card */}
@@ -260,6 +291,54 @@ export default function NewOfferingForm() {
               </div>
             </div>
 
+            <div className="relative">
+              <label className="font-label-caps text-[10px] text-muted-foreground block mb-2 uppercase tracking-widest">Authorised Signature</label>
+              <div 
+                onClick={() => setIsSignatureOpen(!isSignatureOpen)}
+                className="w-full bg-transparent border-b-2 border-border hover:border-primary transition-all py-3 cursor-pointer flex items-center justify-between group"
+              >
+                <div className="flex items-center gap-3">
+                  {SIGNATURES.find(s => s.id === selectedSignature)?.path ? (
+                    <img src={SIGNATURES.find(s => s.id === selectedSignature)?.path!} alt="Sign" className="h-8 w-auto object-contain bg-white/50 px-2" />
+                  ) : (
+                    <span className="material-symbols-outlined text-muted-foreground">signature</span>
+                  )}
+                  <span className="font-heading text-lg">{SIGNATURES.find(s => s.id === selectedSignature)?.name}</span>
+                </div>
+                <span className={cn("material-symbols-outlined transition-transform duration-300", isSignatureOpen && "rotate-180")}>expand_more</span>
+              </div>
+
+              {isSignatureOpen && (
+                <div className="absolute z-50 bottom-full left-0 w-full mb-2 bg-card border border-border shadow-2xl animate-in slide-in-from-bottom-4 duration-300">
+                  {SIGNATURES.map((sig) => (
+                    <div 
+                      key={sig.id}
+                      onClick={() => {
+                        setSelectedSignature(sig.id);
+                        setIsSignatureOpen(false);
+                      }}
+                      className={cn(
+                        "p-4 flex items-center gap-4 hover:bg-primary/5 cursor-pointer transition-colors border-b border-border last:border-0",
+                        selectedSignature === sig.id && "bg-primary/10"
+                      )}
+                    >
+                      <div className="w-16 h-10 bg-white/80 flex items-center justify-center p-1 border border-border">
+                        {sig.path ? (
+                          <img src={sig.path} alt={sig.name} className="max-w-full max-h-full object-contain" />
+                        ) : (
+                          <span className="text-[10px] font-label-caps text-muted-foreground">NONE</span>
+                        )}
+                      </div>
+                      <span className="font-heading text-md">{sig.name}</span>
+                      {selectedSignature === sig.id && (
+                        <span className="material-symbols-outlined ml-auto text-primary">check_circle</span>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+
             <button 
               onClick={() => setShowPreviewModal(true)}
               disabled={!selectedDevotee || amount <= 0}
@@ -290,7 +369,7 @@ export default function NewOfferingForm() {
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
                 <div className="lg:col-span-8 overflow-y-auto max-h-[600px] p-2">
-                   <ReceiptView donation={{ date: new Date(), Devotee: selectedDevotee, purpose }} invoices={splitAmounts.map((amt, i) => ({ id: i, amount: amt, invoiceNum: 'TKT-PREVIEW' }))} showPrintButton={false} />
+                   <ReceiptView donation={{ date: new Date(), Devotee: selectedDevotee, purpose, signature: SIGNATURES.find(s => s.id === selectedSignature)?.path }} invoices={splitAmounts.map((amt, i) => ({ id: i, amount: amt, invoiceNum: 'TKT-PREVIEW' }))} showPrintButton={false} />
                 </div>
 
                 <div className="lg:col-span-4 space-y-8 flex flex-col justify-center">
@@ -370,7 +449,7 @@ export default function NewOfferingForm() {
               <h4 className="font-label-caps text-xs text-muted-foreground uppercase tracking-widest">Share with Devotee</h4>
               <div className="flex flex-col gap-4 max-w-md mx-auto">
                 <button 
-                  onClick={() => handleShareWhatsApp("Receipt", amount)}
+                  onClick={() => handleShareWhatsApp(successData)}
                   className="w-full bg-[#25D366] hover:bg-[#128C7E] text-white py-4 px-6 font-heading flex items-center justify-center gap-3 transition-all shadow-lg shadow-[#25D366]/20"
                 >
                   <span className="material-symbols-outlined text-2xl">share</span>
@@ -436,6 +515,15 @@ export default function NewOfferingForm() {
                     placeholder="e.g. WB"
                   />
                 </div>
+              </div>
+              <div>
+                <label className="font-label-caps text-[10px] text-muted-foreground block mb-2 uppercase tracking-widest">PAN Number (Optional)</label>
+                <input 
+                  value={newDevoteePan}
+                  onChange={e => setNewDevoteePan(e.target.value)}
+                  className="w-full bg-transparent border-b-2 border-border focus:border-primary transition-colors py-3 outline-none font-data-tabular text-lg uppercase" 
+                  placeholder="ABCDE1234F"
+                />
               </div>
               <div className="pt-6 flex gap-4">
                 <button type="button" onClick={() => setShowCreateModal(false)} className="flex-1 py-4 text-muted-foreground font-label-caps text-xs border-2 border-border hover:bg-muted">CANCEL</button>

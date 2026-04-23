@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Shree Ked Shaktidham | Vedic Portal",
+  title: "Shree Ked Shaktidham | Management Portal",
   description: "Official Management Portal for Shree Ked Shaktidham Samity Ked",
   icons: {
     icon: "/logo.jpg",
