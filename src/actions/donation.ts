@@ -60,7 +60,7 @@ export async function generateDonationInvoices(totalAmount: number, devoteeId: s
   const CURRENT_DAY = new Date();
 
   let remainingAmount = totalAmount;
-  const splitAmounts = [];
+  const splitAmounts: number[] = [];
 
   // Logic to split by 2000
   while (remainingAmount > 0) {
