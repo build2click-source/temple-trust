@@ -36,6 +36,11 @@ export function LedgerClient({ initialDonations, stats }: LedgerClientProps) {
     }
   };
 
+  const handleDateChange = async (date: string) => {
+    setSelectedDate(date);
+    // You might want to fetch new data here if not handled by parent
+  };
+
   const handlePrint = () => {
     window.print();
   };
